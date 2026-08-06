@@ -1,3 +1,4 @@
+// Dashboard — main page, composes all portfolio components
 import { useState } from 'react'
 import { PortfolioSummary } from '@/components/portfolio/PortfolioSummary'
 import { PortfolioTable } from '@/components/portfolio/PortfolioTable'
@@ -6,17 +7,15 @@ import { AllocationChart } from '@/components/charts/AllocationChart'
 import { PerformanceChart } from '@/components/charts/PerformanceChart'
 
 export function Dashboard() {
+  // Controls whether the "Add Asset" modal is open
   const [showAddModal, setShowAddModal] = useState(false)
 
   return (
     <>
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold text-zinc-100">Portfolio Overview</h1>
-        <p className="text-sm text-zinc-500 mt-1">Track your investments across stocks, ETFs and crypto</p>
-      </div>
-
+      {/* Top metrics */}
       <PortfolioSummary />
 
+      {/* Charts row — performance history + allocation breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
         <div className="lg:col-span-2">
           <PerformanceChart />
@@ -24,9 +23,13 @@ export function Dashboard() {
         <AllocationChart />
       </div>
 
+      {/* Full holdings table */}
       <PortfolioTable onAddAsset={() => setShowAddModal(true)} />
 
-      {showAddModal && <AddAssetModal onClose={() => setShowAddModal(false)} />}
+      {/* Modal — rendered at root level to overlay everything */}
+      {showAddModal && (
+        <AddAssetModal onClose={() => setShowAddModal(false)} />
+      )}
     </>
   )
 }
